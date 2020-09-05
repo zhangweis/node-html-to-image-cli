@@ -59,6 +59,7 @@ require('yargs')
       content,
       type: argv.type,
       transparent: argv.transparent,
+      waitUntil = argv.waitUtil||'networkidle0',
     })
       .then(() => {
         spinner.stop()
