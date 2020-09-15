@@ -34,7 +34,6 @@ require('yargs')
         describe: 'path to a json file with the content',
       })
   }, (argv) => {
-    signale.start(`node-html-to-image-cli v${pkg.version}`)
     if (!fs.existsSync(argv.html)) return signale.error('Please provide an existing HTML file path as first parameter.')
     if (!argv.output) return signale.error('Please provide an output path as second paramter.')
     if (!['png', 'jpeg'].includes(argv.type)) return signale.error('The type option should be valued to "png" or "jpeg".')
@@ -50,9 +49,7 @@ require('yargs')
       }
     }
 
-    const spinner = ora('Getting HTML content').start()
     const html = fs.readFileSync(argv.html).toString('utf8')
-    spinner.text = 'Generating image from HTML'
     nodeHtmlToImage({
       html,
       output: argv.output,
@@ -62,8 +59,6 @@ require('yargs')
       waitUntil: argv.waitUtil||'networkidle0',
     })
       .then(() => {
-        spinner.stop()
-        signale.success('Image successfully created!')
       })
       .catch(e => signale.error(e))
   })
